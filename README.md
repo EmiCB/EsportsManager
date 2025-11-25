@@ -1,2 +1,3 @@
 # EsportsManager
-Game
+
+Game Jam - WIP :D
