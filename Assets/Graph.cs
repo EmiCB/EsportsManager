@@ -67,20 +67,59 @@ public class Graph : MonoBehaviour
 
     float Heuristic(Waypoint a, Waypoint b) => Vector2.Distance(a.transform.position, b.transform.position);
 
-    List<Vector2> ReconstructPath(Dictionary<Waypoint, Waypoint> cameFrom, Waypoint current, Vector2 fromPos, Vector2 toPos)
+    /*    List<Vector2> ReconstructPath(Dictionary<Waypoint, Waypoint> cameFrom, Waypoint current, Vector2 fromPos, Vector2 toPos)
+        {
+            var path = new List<Vector2>();
+            path.Add(toPos);
+            var node = current;
+            while (cameFrom.ContainsKey(node))
+            {
+                path.Add(node.transform.position);
+                node = cameFrom[node];
+            }
+            path.Add(node.transform.position);
+            path.Reverse();
+            // Optionally insert start position for smoothness:
+            path.Insert(0, fromPos);
+            return path;
+        }*/
+
+    List<Vector2> ReconstructPath(
+        Dictionary<Waypoint, Waypoint> cameFrom,
+        Waypoint current,
+        Vector2 fromPos,
+        Vector2 toPos,
+        float variance = 0.20f // tweak this to control randomness
+    )
     {
         var path = new List<Vector2>();
-        path.Add(toPos);
+
+        // Add goal with jitter
+        path.Add(toPos + Random.insideUnitCircle * variance);
+
         var node = current;
+
         while (cameFrom.ContainsKey(node))
         {
-            path.Add(node.transform.position);
+            Vector2 pos = node.transform.position;
+
+            // Add jitter so agents don't walk identical lines
+            pos += Random.insideUnitCircle * variance;
+
+            path.Add(pos);
             node = cameFrom[node];
         }
-        path.Add(node.transform.position);
+
+        // Start node
+        Vector2 startPos = node.transform.position;
+        startPos += Random.insideUnitCircle * variance;
+        path.Add(startPos);
+
         path.Reverse();
-        // Optionally insert start position for smoothness:
+
+        // Insert exact start position (optional)
         path.Insert(0, fromPos);
+
         return path;
     }
 }

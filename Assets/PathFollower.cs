@@ -19,7 +19,13 @@ public class PathFollower : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (path == null || path.Count == 0) return;
+        if (path == null || path.Count == 0)
+        {
+            var rand = new System.Random();
+            var item = graph.waypoints[rand.Next(graph.waypoints.Count)];
+            MoveTo(item.transform.position);
+            return;
+        };
         Vector2 pos = rb.position;
         Vector2 target = path[index];
         Vector2 dir = (target - pos);
