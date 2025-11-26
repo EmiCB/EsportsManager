@@ -43,7 +43,6 @@ public class PathFollower : MonoBehaviour
         rb.rotation = Mathf.MoveTowardsAngle(rb.rotation, angle, rotateSpeed * Time.fixedDeltaTime);
     }
 
-    // Request path to world position
     public void MoveTo(Vector2 worldTarget)
     {
         if (graph == null) return;

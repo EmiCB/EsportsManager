@@ -102,22 +102,18 @@ public class Graph : MonoBehaviour
         while (cameFrom.ContainsKey(node))
         {
             Vector2 pos = node.transform.position;
-
-            // Add jitter so agents don't walk identical lines
             pos += Random.insideUnitCircle * variance;
 
             path.Add(pos);
             node = cameFrom[node];
         }
 
-        // Start node
         Vector2 startPos = node.transform.position;
         startPos += Random.insideUnitCircle * variance;
         path.Add(startPos);
 
         path.Reverse();
 
-        // Insert exact start position (optional)
         path.Insert(0, fromPos);
 
         return path;
