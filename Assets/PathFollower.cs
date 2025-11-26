@@ -49,7 +49,6 @@ public class PathFollower : MonoBehaviour
         if (graph == null) return;
         path = graph.FindPath(transform.position, worldTarget);
         index = 0;
-        Debug.Log("test");
     }
 
     public bool HasPath => path != null && path.Count > 0;
